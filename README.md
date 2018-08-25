@@ -1,1 +1,1 @@
-# CS460-sudoku
+# CS480-sudoku
