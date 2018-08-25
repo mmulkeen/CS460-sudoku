@@ -1,13 +1,20 @@
 // Sudoku Solver
 #include <iostream>
 #include <string>
+#include <fstream>
+#include <cstdlib>
 using namespace std;
-string construct (string input);
-int ary[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+bool solve ( char *board[9] );
+bool done ( bool ary[] );
+char construct (string input, char *board[9], int lineo);
+bool ary[81] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 int main (int argc, char * argv [])
 {
-	string board[9][9];
-
+	char *board[9];
+	for ( int i = 0; i < 9; i++){
+		board[i] = new char[9];
+	}
+	
         if (argc < 2)
         {
                 cerr << "Usage: " << argv[0] << " <filename>\n";
@@ -23,7 +30,17 @@ int main (int argc, char * argv [])
         int lineno = 0;
         while (getline (infile, line))
         {
-               board = construct(line, board);
+               construct(line, board, lineno);
+	       /*
+	       	 for ( int j = 0; j < 9; j++) {
+                	board[lineno][j] = line[j];
+                	if ( line[j] != '0' ) {
+                        	ary[j+(lineno*9)] = 1;
+			}
+
+			lineno++;
+		}
+		*/
 	       lineno++;
         }
         infile.close();
@@ -33,24 +50,34 @@ int main (int argc, char * argv [])
         return 0;
 }
 
-string construct (input, board, lineno) {
+char construct (string input, char *board[9], int lineno) {
 	
 	for ( int j = 0; j < 9; j++) {
 		board[lineno][j] = input[j];
 		if ( input[j] != '0' ) {
-			ary[lineno*j] = 1;
+			ary[j+(lineno*9)] = 1;
+		//cout<< board[lineno][j] << endl;
 		}	
+	cout<< board[lineno][j] << endl;
 	}
-	return board
+	return 'c';
 }
-bool solve( board ) {
+
+bool solve(char *board[9] ) {
 	// check to see if every node was visited.
 	// If not start with first open space.
 	// Check the row collumn and box for available #'s
 	// For each value available check all posibilities.
-
+	/*
+	for ( int i = 0; i<9;i++){
+		for (int j=0;j<9;j++){
+			cout << board[i][j] << endl;
+		}
+	}
+	*/
 }
-bool done( ary ) {
+bool done( bool ary[] ) {
+	
 	
 	for ( int i = 0; i < 81; i++) {
 		if (ary[i] == 0){return false;}
