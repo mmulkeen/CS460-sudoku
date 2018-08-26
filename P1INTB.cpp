@@ -88,7 +88,7 @@ bool solve(int *board[9] ) {
 			//cout << "INDEX OF AVAILABLE" << i
 			board[row][col] =i + 1;
 			cout << "VALUE TO PLACE IN BOARD" << i + 1 << endl;
-			//available[i] = 0;
+			available[i] = 0;
 			ary[col+(row*9)] = 1;
 			if (solve(board)) {
 				return true;
@@ -109,6 +109,7 @@ bool solve(int *board[9] ) {
 		}
 	}
 	*/
+	cout << "ERROR FOUND\n";
 	return false;
 }
 bool done() {
@@ -141,30 +142,40 @@ void checkCell(int *board[9], int idx) {
       			available[ temp - 1 ] = 0;
 		}
   	}
+	
 	//return available;
-	//cout << "ROWS CHECKED" << endl;
-  	// Check cols
+	cout << "ROWS CHECKED" << endl;
+	cout << "AVAIlABLE LIST: ";
+	printA();
+	// Check cols
   	for( int j = 0; j < 9; j++) {
     		if( board[j][col] != 0 ) {
       			int temp = board[j][col];
 			available[ temp - 1 ] = 0;
 		}
   	}	
-	//cout << "COLS CHECKED" << endl;
+	cout << "COLS CHECKED" << endl;
+	cout << "AVAIlABLE LIST: ";
+	printA();
 	//return available;
-  	int startSectorCol = (col % 3) * 3;
+  	int startSectorCol = (col / 3) * 3;
   	int startSectorRow = (row / 3) * 3;
   	// Check sector
 	
-  	for( int i = startSectorRow; i < 3; i++) {
-    		for( int j = startSectorCol; j < 3; j++) {
-      			if( board[startSectorRow][startSectorCol] != 0 ) {
-				int temp = board[startSectorRow][startSectorCol];
+  	for( int i = startSectorRow; i < startSectorRow + 3; i++) {
+    		for( int j = startSectorCol; j < startSectorCol + 3; j++) {
+      			if( board[i][j] != 0 ) {
+			  cout << "NUMBER FOUND IN SECTOR: " << board[i][j] << endl;
+				int temp = board[i][j];
 				//cout << "VALUE IN BOARD: " << temp <<"| VALUES IN i & j: " << i << " " << j << endl;
 				available[temp - 1] = 0;
 			}
     		}
   	}
+
+	cout << "SECTORS CHECKED" << endl;
+	cout << "AVAIlABLE LIST: ";
+	printA();
 	
 }
 void printAry() { for (int i = 0;i<81;i++){cout<< ary[i];}cout << endl;}
