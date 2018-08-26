@@ -8,9 +8,12 @@ using namespace std;
 void printAry();
 void printGrid(int *board[9]) {for( int i = 0; i < 9; i++) {for( int j = 0; j < 9; j++) {cout << board[i][j] << ' '; }  cout << endl;} }
 bool solve ( int *board[9] );
-int *checkCell(int *board[9], int idx, int available[9]);
+void checkCell(int *board[9], int idx);
 int getStart ();
 bool done ();
+int available[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1};
+void printA() { for (int i = 0;i<9;i++){cout<< available[i];}cout << endl;}
+void resetA() { for (int i = 0; i<9; i++){available[i] = 1;}}
 int *construct (string input, int *board[9], int lineo);
 bool ary[81] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 int main (int argc, char * argv [])
@@ -75,19 +78,24 @@ bool solve(int *board[9] ) {
 	int start = getStart();
 	int row = start / 9;
         int col = start % 9;
-	int available[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1};
-	checkCell(board, start, available);
-
+	//printA();
+	resetA();
+	//int available[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1};
+	checkCell(board, start);
+	printA();
 	for (int i = 0;i<9;i++ ) {
 		if ( available[i] != 0) {
-			board[row][col] = available[i] + 1;
-			cout << "VALUE TO PLACE IN BOARD" << available[i] + 1 << endl;
+			//cout << "INDEX OF AVAILABLE" << i
+			board[row][col] =i + 1;
+			cout << "VALUE TO PLACE IN BOARD" << i + 1 << endl;
+			//available[i] = 0;
 			ary[col+(row*9)] = 1;
-			if (solve(board) == true) {
+			if (solve(board)) {
 				return true;
 			}
+			resetA();
 			board[row][col] = 0;
-			ary[col+(row*9)] = 1;
+			ary[col+(row*9)] = 0;
 		}
 	}
 	// check to see if every node was visited.
@@ -116,11 +124,11 @@ bool done() {
 
 int getStart() {
 	for (int i=0;i<81;i++){
-		if (ary[i] == 0){return ary[i];}
+		if (ary[i] == 0){return i;}
 	}
 	
 }
-int *checkCell(int *board[9], int idx, int available[9]) {
+void checkCell(int *board[9], int idx) {
 	//cout << "START INDEX: " << idx << endl;
   	int row = idx / 9;
   	int col = idx % 9;
@@ -158,7 +166,6 @@ int *checkCell(int *board[9], int idx, int available[9]) {
     		}
   	}
 	
-  	return available;
 }
 void printAry() { for (int i = 0;i<81;i++){cout<< ary[i];}cout << endl;}
 
