@@ -1,5 +1,5 @@
 // Sudoku Solver
-// poop
+// Matthew Mulkeen & Adam May
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -43,19 +43,21 @@ int main (int argc, char * argv [])
 	       lineno++;
         }
         infile.close();
-
+	/*
 	for( int i = 0; i < 9; i++) {
     		for( int j = 0; j < 9; j++) {
       			cout << board[i][j] << ' ';
     		}	
     	cout << endl;
   	}
-	
+	*/
 	//int available[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1};
-	solve(board);
-	cout << "----------------------" << endl;  
-	printGrid(board);
-	cout << "This took " << count << "tries to complete\n";
+
+	if( solve(board) )
+	  printGrid(board);
+	else
+	  cout << "A solution could not be generated for the given Sudoku puzzle\n";
+	//cout << "This took " << count << "tries to complete\n";
 
         return 0;
 }
