@@ -17,30 +17,31 @@ void printA(int *available) { for (int i = 0;i<9;i++){cout<< available[i];}cout 
 int *construct (string input, int *board[9], int lineo);
 bool ary[81] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 int count = 0;
-int main (int argc, char * argv [])
+int main ()
 {
 	int *board[9];
 	for ( int i = 0; i < 9; i++){
 		board[i] = new int[9];
 	}
+
+	string filename;
+	cout << "Enter puzzle file: ";
+	cin >> filename;
 	
-        if (argc < 2)
-        {
-                cerr << "Usage: " << argv[0] << " <filename>\n";
-                exit (1);
-        }
-        ifstream infile (argv[1]);
+        ifstream infile (filename);
         if (infile.fail())
-        {
-                cerr << "File: " << argv[1] << " not found.\n";
-                exit (2);
+	  {
+	  cerr << "File: " << filename << " not found.\n";
+	  exit (2);
         }
         string line;
         int lineno = 0;
         while (getline (infile, line))
-        {
-               construct(line, board, lineno);
-	       lineno++;
+	  {
+	    if( line == "" )
+	      break;
+	    construct(line, board, lineno);
+	    lineno++;
         }
         infile.close();
 	/*
@@ -63,16 +64,24 @@ int main (int argc, char * argv [])
 }
 
 int *construct (string input, int *board[9], int lineno) {
-	
-	for ( int j = 0; j < 9; j++) {
-		int tmp = input[j]-'0';
-		board[lineno][j] = tmp;
-		if ( input[j] != '0' ) {
-			ary[j+(lineno*9)] = 1;
-		}	
-	//cout<< board[lineno][j] << endl;
-	}
-	return *board;
+
+  int i = 0;
+  int idx = 0;
+  
+  while( i < input.length()) {
+
+    if( input[idx] != ' ' ) {
+      int tmp = input[i]-'0';
+      board[lineno][idx] = tmp;
+      if ( input[i] != '0' ) {
+	ary[idx+(lineno*9)] = 1;
+      }
+      idx++;
+    }
+    //cout<< board[lineno][j] << endl;
+    i++;
+  }
+  return *board;
 }
 
 bool solve(int *board[9] ) {
